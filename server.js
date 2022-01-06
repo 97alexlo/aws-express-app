@@ -9,9 +9,14 @@ const pokemons = [
     name: "Pikachu",
     type: "electric ⚡️",
     level: 99,
-    image: "/pikachu.webp"
   }
 ]
+
+// Before the other routes
+app.use(express.static("build"))
+
+// the other resource routes
+
 
 app.get("/api/pokemons", (req, res) => {
   res.send({pokemons: pokemons})
@@ -24,5 +29,10 @@ app.post("/api/pokemons", (req, res) => {
   res.send(data)
 })
 
+// After all other routes
+app.get('*', (req, res) => {
+    res.sendFile('./build/index.html');
+  });
+  
 const port = process.env.PORT || 8080
 app.listen(port, () => console.log(`listening on port ${port}`))
